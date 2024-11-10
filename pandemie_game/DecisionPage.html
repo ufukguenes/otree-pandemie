@@ -1,0 +1,31 @@
+{{ block title }}
+
+    {{if player.round_number == 1 }}
+    <p> Sie haben keine Informationen über die Entscheidungen Ihres Umfeldes. </p>
+    <p> Was machen Sie? </p>
+
+    {{else}}
+        <p>
+            Sie wurden 
+            {{ if prev_player_is_infested }} 
+                infiziert!
+            {{ else }}
+                nicht infiziert!
+            {{endif}}
+
+        </p>
+
+        <p> In Ihrem Umfeld wurden {{prev_player_num_infected_neighbours}} von {{prev_player_num_neighbours}} infiziert.</p>
+    {{endif}}
+
+    <p> Sie haben {{prev_player_budget}}€ budget</p>
+    <p> Sie befinden sich in Runde {{player.round_number}} </p>
+    
+{{ endblock }}
+{{ block content }}
+
+    {{ formfields Entscheidung}}
+    {{ next_button }}
+
+{{ endblock }}
+
