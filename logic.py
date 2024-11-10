@@ -1,14 +1,30 @@
 import random
 
-def run_step(budget, new_money, num_infected_neighbours, num_neighbours, is_infested, is_protected):
+"""
+args:
+    budget: the current budget the player has
+    num_infected_neighbours: number of infected neighbours 
+    is_infected: true if the player is currently infected, false if not
+    is_protected: ture if the player choose to protect themselfes
+
+return:
+    budget (int): the new total budget for the player
+    new_money (int): the amount of new money the player got
+    num_infected_neighbours (int): the new number of infected neighbours
+    num_neighbours (int): total number of neighbours
+    is_infected: true if the player got infected, false if not
+    is_protected: true if the player is protected, flase if not
+
+"""
+def run_step(budget, num_infected_neighbours, num_neighbours, is_infected, is_protected):
 
     chance = random.random()
     # get infected by by conditional propability
-    is_infested = False if is_protected and chance >= 0.1 or chance > 0.8 else True
+    is_infected = False if is_protected and chance >= 0.1 or chance > 0.8 else True
 
     # protection costs 20, infection costs 50
     budget = budget - 20 if is_protected else budget
-    budget = budget - 50 if is_infested else budget
+    budget = budget - 50 if is_infected else budget
 
     # neighbours get infected by change
     chance = random.random()
@@ -33,13 +49,13 @@ def run_step(budget, new_money, num_infected_neighbours, num_neighbours, is_infe
         money_per_sick_individual = sick_group_new_money / num_infected_neighbours
 
     
-    new_money =  money_per_healthy_individual if not is_infested else money_per_sick_individual
+    new_money =  money_per_healthy_individual if not is_infected else money_per_sick_individual
 
     budget += new_money
 
     total_new_money_distributed = money_per_healthy_individual * num_healthy_neighbours + money_per_sick_individual * num_infected_neighbours
-    print("budget: {}, new_money: {}, num_infected_neighbours: {}, is_infested: {}, healty_money: {}, sick_money: {}, total_money_distributed: {}".format(int(budget), int(new_money), int(num_infected_neighbours), is_infested, round(money_per_healthy_individual), round(money_per_sick_individual), round(total_new_money_distributed)))
+    print("budget: {}, new_money: {}, num_infected_neighbours: {}, is_infected: {}, healty_money: {}, sick_money: {}, total_money_distributed: {}".format(int(budget), int(new_money), int(num_infected_neighbours), is_infected, round(money_per_healthy_individual), round(money_per_sick_individual), round(total_new_money_distributed)))
 
-    return int(budget), int(new_money), int(num_infected_neighbours), int(num_neighbours), is_infested, is_protected
+    return int(budget), int(new_money), int(num_infected_neighbours), int(num_neighbours), is_infected, is_protected
 
 

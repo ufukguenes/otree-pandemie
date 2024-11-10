@@ -28,7 +28,7 @@ class Player(BasePlayer):
     num_neighbours = models.IntegerField(initial=10)
     num_infected_neighbours = models.IntegerField(initial=0)
 
-    is_infested = models.BooleanField(
+    is_infected = models.BooleanField(
         initial=False
     ) 
 
@@ -60,7 +60,7 @@ class DecisionPage(Page):
         else:
             prev_player = player
         return dict (
-             prev_player_is_infested = prev_player.is_infested,
+             prev_player_is_infected = prev_player.is_infected,
              prev_player_num_infected_neighbours =  prev_player.num_infected_neighbours,
              prev_player_num_neighbours = prev_player.num_neighbours,
              prev_player_budget = prev_player.budget
@@ -72,7 +72,7 @@ class DecisionPage(Page):
                 prev_player = player.in_previous_rounds()[-1]
             else:
                 prev_player = player
-            player.budget, player.new_money, player.num_infected_neighbours, player.num_neighbours, player.is_infested, player.is_protected = run_step(prev_player.budget, prev_player.new_money, prev_player.num_infected_neighbours, prev_player.num_neighbours, prev_player.is_infested, prev_player.is_protected)
+            player.budget, player.new_money, player.num_infected_neighbours, player.num_neighbours, player.is_infected, player.is_protected = run_step(prev_player.budget, prev_player.num_infected_neighbours, prev_player.num_neighbours, prev_player.is_infected, prev_player.is_protected)
     
     
 class TotalPayoff(Page):
